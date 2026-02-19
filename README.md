@@ -1,209 +1,191 @@
-# 🧩 Fkhri Elements
+# FKHRI Core (Fakhraei Core)
 
-**Fkhri Elements** is a lightweight, modular **Elementor extension** that brings new creative widgets — Stories, AJAX Search, Ticker Carousel, and Counter — to WordPress.  
-Designed for speed, extendability, and seamless integration with Elementor and WooCommerce.
+پلاگین مرکزی فخرایی برای وردپرس — شامل:
+- ویجت‌های اختصاصی Elementor
+- پست‌تایپ‌ها و متاباکس‌ها (Content Layer)
+- اسنیپت‌ها (قابلیت‌های کوچک)
+- پنل ادمین (در آینده)
+
+هدف این پلاگین اینه که همه قابلیت‌های اختصاصی سایت فخرایی در یک “Core Plugin” تمیز، قابل توسعه و قابل نگهداری جمع شود.
 
 ---
 
-## 📁 Folder Structure
+## Requirements
+
+- WordPress 6.x+
+- PHP 7.4+ (پیشنهاد: 8.0+)
+- Elementor (Free) فعال باشد
+
+---
+
+## Installation
+
+1) پوشه پلاگین را داخل مسیر زیر قرار دهید:
+
+`wp-content/plugins/fkhri-core/`
+
+2) از پیشخوان وردپرس پلاگین **Fakhraei Core** را فعال کنید.
+
+3) اگر Elementor فعال باشد، دسته‌بندی ویجت‌ها با نام **Fakhraei** در Elementor نمایش داده می‌شود.
+
+---
+
+## Project Structure
 
 ```
-fkhri-elements/
-├─ fkhri-elements.php              ← Main plugin file (plugin header + init include)
+fkhri-core/
+├─ assets/
+│  ├─ css/
+│  └─ js/
 ├─ includes/
-│  ├─ init.php                       ← Bootstrap: textdomain, CPT, assets, Elementor category, AJAX, widget registry
-│  ├─ stories-cpt.php                ← Custom Post Type: `shopido_story` + media metabox
+│  ├─ core/
+│  │  ├─ constants.php
+│  │  └─ loader.php
+│  ├─ elementor/
+│  │  ├─ widgets/
+│  │  │  ├─ class-fkhri-*.php
+│  │  └─ elementor.php
+│  ├─ content/
+│  │  └─ content.php
 │  ├─ ajax/
-│  │  └─ ajax-search.php             ← AJAX search handler (wp_ajax_* / _nopriv)
-│  └─ widgets/
-│     ├─ class-stories.php                     ← Stories widget (`SEA\Widgets\Stories`)
-│     ├─ class-ajax-search.php                 ← AJAX Search widget (`Fkhri_Ajax_Search`)
-│     ├─ class-fkhri-ticker-carousel.php     ← Infinite ticker widget
-│     ├─ class-fkhri-counter.php             ← Counter widget
-│     ├─ class-fkhri-read-more.php           ← Legacy
-│     ├─ class-fkhri-breadcrumb.php          ← Legacy
-│     ├─ class-fkhri-product-carousel.php    ← Legacy
-│     └─ class-fkhri-tabbed-product-carousel.php ← Legacy
-└─ assets/
-   ├─ css/
-   │  ├─ story.css
-   │  ├─ ajax-search.css
-   │  ├─ ticker-carousel.css
-   │  ├─ counter.css
-   │  ├─ read-more.css
-   │  ├─ breadcrumb.css
-   │  ├─ product-carousel.css
-   │  └─ tabbed-carousel.css
-   └─ js/
-      ├─ story.js
-      ├─ ajax-search.js
-      ├─ ticker-carousel.js
-      ├─ counter.js
-      ├─ read-more.js
-      ├─ product-carousel.js
-      └─ tabbed-carousel.js
+│  ├─ snippets/
+│  └─ admin/
+├─ fkhri-core.php
+└─ README.md
 ```
 
----
+### What each folder does
 
-## ⚙️ Initialization (`includes/init.php`)
+- `assets/`  
+  فایل‌های CSS/JS مربوط به ویجت‌ها و قابلیت‌های فرانت.
 
-- Loads textdomain `fkhri-widgets-pack`
-- Registers Swiper **v8.4.5** (only if not already available)
-- Registers all plugin CSS/JS files using `filemtime` versioning
-- Registers Elementor category: **Fkhri**
-- Loads and registers all widgets dynamically
-- Includes `stories-cpt.php` and `ajax/ajax-search.php`
-- Standardized handles naming: `fkhri-{module}`
+- `includes/core/`  
+  ثابت‌ها، مسیرها، نسخه پلاگین و Loader اصلی.
 
----
+- `includes/elementor/`  
+  ثبت دسته‌بندی فخرایی در Elementor، ثبت/لود ویجت‌ها و enqueue کردن assets.
 
-## 🧱 Widgets Overview
+- `includes/content/`  
+  پست‌تایپ‌ها و متاباکس‌ها (ساختار محتوایی مستقل از المنتور).
 
-### 🟣 Stories (`SEA\Widgets\Stories`)
-Grid-based story viewer powered by the custom post type `shopido_story`.
+- `includes/snippets/`  
+  اسنیپت‌ها و قابلیت‌های کوچک که به مرور اضافه می‌شوند.
 
-**Features**
-- Responsive grid with featured images
-- Opens popup viewer (image 20s, video duration or fallback 20s)
-- Like button (UI only)
-- Preload next story
-- Fully accessible: keyboard navigation & focus trap
+- `includes/admin/`  
+  پنل ادمین و تنظیمات عمومی (در آینده).
 
 ---
 
-### 🔵 AJAX Search (`Fkhri_Ajax_Search`)
-Instant AJAX search across multiple post types or WooCommerce products.
+## Elementor Widgets
 
-**Features**
-- Post type / taxonomy filters
-- Minimum character, limit, order, stock-only (Woo)
-- “View all” button (optional)
-- Card/List layouts with responsive columns
-- JSON output rendered via JS templates
+ویجت‌ها داخل مسیر زیر قرار دارند:
 
----
+`includes/elementor/widgets/`
 
-### 🟢 Ticker Carousel (`Fkhri_Ticker_Carousel`)
-Infinite scrolling ticker with smooth CSS animation.
+ثبت ویجت‌ها و لود فایل‌ها در این فایل انجام می‌شود:
 
-**Features**
-- Repeater: text/link, colors, padding, radius
-- CSS Variables: `--gap`, `--speed`, `--dir`
-- Pause on hover/focus
-- Direction RTL/LTR supported
+`includes/elementor/elementor.php`
 
----
+### Add a new widget
 
-### 🟠 Counter (`Fkhri_Counter`)
-Animated numeric counter with configurable animation and formatting.
+1) یک فایل جدید بسازید:
+`includes/elementor/widgets/class-fkhri-your-widget.php`
 
-**Features**
-- Start, end, duration
-- Count up/down
-- Thousands separator formatting
-- Fully stylable in Elementor
+2) یک کلاس جدید مطابق استاندارد ویجت‌های Elementor بسازید و این موارد را پیاده کنید:
+- `get_name()`
+- `get_title()`
+- `get_categories()` → باید `fkhri` باشد
+- `get_style_depends()` / `get_script_depends()` (در صورت نیاز)
+- `register_controls()`
+- `render()`
+
+3) فایل ویجت را در آرایه فایل‌های قابل لود (در `elementor.php`) اضافه کنید تا include شود.
 
 ---
 
-## 🗂️ Custom Post Type: `shopido_story`
+## Assets (CSS/JS)
 
-Defined in `includes/stories-cpt.php`
+assets در `includes/elementor/elementor.php` register می‌شوند و در صورت وجود فایل با `filemtime()` version می‌خورند تا مشکل cache نداشته باشیم.
 
-- `register_post_type('shopido_story', …)`
-- Media metabox: select image/video from Media Library
-- Stores `_story_media_id` & `_story_media_type`
-
----
-
-## 🧩 AJAX Handler
-
-File: `includes/ajax/ajax-search.php`
-
-**Hooks**
-- `wp_ajax_shopido_ajax_search`
-- `wp_ajax_nopriv_shopido_ajax_search`
-
-**Parameters**
-`q`, `post_types`, `taxonomy`, `term_ids`, `min_chars`, `limit`, `orderby`, `order`, `only_instock`
-
-**Output**
-JSON response array → `[ { title, url, thumb, price? } ]`
+الگوی کلی:
+- هر ویجت یک handle اختصاصی برای CSS و JS دارد
+- ویجت در `get_style_depends()` و `get_script_depends()` همان handle را برمی‌گرداند
 
 ---
 
-## 🧠 Developer Guide
+## Content Layer (Post Types + Meta Boxes)
 
-### Add a New Widget
+تمام CPT و متاباکس‌ها باید داخل:
 
-1. Create `includes/widgets/class-your-widget.php`
-2. Extend `\Elementor\Widget_Base`
-3. Implement `get_style_depends()` / `get_script_depends()`
-4. Add CSS/JS in `/assets/`
-5. Register handles inside `includes/init.php`
-6. Include & register class
+`includes/content/`
 
----
+تعریف شوند.
 
-## 🔒 Security
-
-- Nonce check (`shopido_ajax_nonce`)
-- Sanitization: `sanitize_text_field`, `sanitize_key`, `absint`
-- Escaping: `esc_html`, `esc_url`, `wp_kses_post`
-- Capability checks for CPT/meta saving
+هدف این بخش:
+- داده‌ها قابل Query و قابل صفحه‌بندی باشند
+- داده‌ها مستقل از المنتور ذخیره شوند (برای سئو/سرعت/توسعه)
 
 ---
 
-## 🌐 Localization
+## SEO Notes (Pagination / Ajax Widgets)
 
-- Textdomain: `fkhri-widgets-pack`
-- POT file: `languages/fkhri-widgets-pack.pot`
-- Localized JS strings via `wp_localize_script()`
-
----
-
-## 🧰 Hooks
-
-**Filters**
-- `shopido_swiper_handle`
-- `shopido_ajax_search_args`
-- `shopido_ajax_search_result_item`
-- `shopido_story_cpt_args`
-- `shopido_assets_map`
-
-**Actions**
-- `shopido_before_enqueue_{handle}`
-- `shopido_after_enqueue_{handle}`
-- `shopido_story_metabox_render`
-- `shopido_story_metabox_save`
+برای ویجت‌هایی که صفحه‌بندی یا Ajax دارند:
+- Next/Prev باید لینک واقعی (`href`) داشته باشند (Progressive Enhancement)
+- اگر JS خاموش/خراب شد، کاربر با کلیک به صفحه واقعی منتقل شود
+- در صورت نیاز `rel="prev/next"` در `<head>` خروجی داده شود
+- در حالت Ajax فقط Grid داخل ویجت آپدیت شود و URL با `pushState` تغییر کند
 
 ---
 
-## 🧾 Requirements
+## Development
 
-| Component | Minimum | Recommended |
-|------------|----------|--------------|
-| WordPress  | 5.8 | 6.3+ |
-| PHP        | 7.4 | 8.1+ |
-| Elementor  | 3.10 | Latest |
-| WooCommerce | 6.0 | Latest |
+### Debug mode
 
----
+در `wp-config.php`:
 
-## 🧹 Uninstall
+```php
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', false);
+```
 
-`uninstall.php` safely removes meta fields `_story_media_id` and `_story_media_type` (optional).  
-No posts are deleted by default.
+لاگ‌ها:
+`wp-content/debug.log`
 
----
+### Conventions
 
-## 🧭 Roadmap
-
-- Story albums & analytics tracking  
-- Grouped AJAX results (posts/products/categories)  
-- Multi-row ticker layout  
-- Countdown support for Counter
+- Prefix: `fkhri_`
+- Handle assets: `fkhri-*`
+- کلاس‌ها: `Fkhri_*`
+- استفاده از `sanitize_*` برای ورودی و `esc_*` برای خروجی
+- کامنت‌ها انگلیسی کوتاه و واضح
 
 ---
 
-© 2025 **Fkhri Elements** — Crafted with ❤️ for developers.
+## Troubleshooting
+
+### Widgets not visible in Elementor
+- Elementor فعال باشد
+- فایل `includes/elementor/elementor.php` توسط loader include شده باشد
+- خطاها را در `debug.log` بررسی کنید
+
+### CSS/JS loads but styles not applied
+- handleهای `get_style_depends()` و `get_script_depends()` با handleهای register شده یکی باشند
+- مسیر فایل در `assets/css` و `assets/js` درست باشد
+- کش مرورگر / Cloudflare را پاک کنید
+
+---
+
+## Roadmap
+
+- [ ] تکمیل پست‌تایپ‌ها و متاباکس‌ها برای portfolio
+- [ ] استانداردسازی ویجت Testimonials (Schema + pagination + modal)
+- [ ] اضافه شدن مدیریت اسنیپت‌ها (فعال/غیرفعال)
+- [ ] اضافه شدن پنل ادمین برای تنظیمات عمومی فخرایی
+- [ ] آماده‌سازی پوشه `languages/`
+
+---
+
+## Author
+
+Salar Shirkhani
