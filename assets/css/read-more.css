@@ -1,0 +1,32 @@
+/* ===== Fkhri Read More ===== */
+.fkhri-rm{ position:relative; }
+.fkhri-rm__content{
+  max-height: var(--srm-h, 180px);
+  overflow: hidden;
+  transition: max-height .35s ease;
+}
+.fkhri-rm__fade{
+  position:absolute; left:0; right:0; bottom:44px; height:96px; pointer-events:none;
+  /* پیش‌فرض: از شفاف به رنگ پس‌زمینه صفحه */
+  background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0%,
+      var(--srm-overlay, var(--fkhri-bg, transparent)) 60%,
+      var(--srm-overlay, var(--fkhri-bg, transparent)) 100%
+  );
+}
+.fkhri-rm__toggle{
+  appearance:none; border:0; background:transparent; cursor:pointer;
+  display:flex; align-items:center; gap:8px; width:100%;
+  color:#374151; font-weight:700; padding:10px 0; margin-top:8px;
+}
+.fkhri-rm__toggle.align-left{ justify-content:flex-start; }
+.fkhri-rm__toggle.align-center{ justify-content:center; }
+.fkhri-rm__toggle.align-right{ justify-content:flex-end; }
+
+.fkhri-rm__icon{ transition: transform .25s ease; }
+
+/* حالت باز */
+.fkhri-rm.is-open .fkhri-rm__content{ max-height: 9999px; }
+.fkhri-rm.is-open .fkhri-rm__fade{ display:none; }
+.fkhri-rm.is-open .fkhri-rm__icon{ transform: rotate(180deg); }
